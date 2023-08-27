@@ -69,7 +69,13 @@ namespace lox
 
         private static void Run(string source)
         {
-            // throw new NotImplementedException();
+            Scanner scanner = new Scanner(source);
+            List<Token> tokens = scanner.ScanTokens();
+
+            foreach (Token token in tokens)
+            {
+                Console.WriteLine(token);
+            }
         }
 
         private static void Report(int line, string where, string message)
