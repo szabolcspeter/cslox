@@ -81,10 +81,37 @@ namespace lox
                 case '>':
                     AddToken(Match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
                     break;
+                case '/':
+                    if (Match('/'))
+                    {
+                        // a comment goes until the end of the line.
+                        while (Peek() != '\n' && !IsAtEnd())
+                            Advance();
+                    }
+                    else
+                    {
+                        AddToken(TokenType.SLASH);
+                    }
+                    break;
+                case ' ':
+                case '\r':
+                case '\t':
+                    // ignore whitespace characters
+                    break;
+                case '\n':
+                    line++;
+                    break;
                 default:
                     Lox.Error(line, "Unexpected character.");
                     break;
             }
+        }
+
+        private char Peek()
+        {
+            if (IsAtEnd())
+                return '\0';
+            return _source[current];
         }
 
         private bool Match(char expected)
